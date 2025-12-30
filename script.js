@@ -6,28 +6,44 @@ function startLoader() {
     const loader = document.getElementById('loader-wrapper');
     if (!loader) return;
 
+    // Create audio elements with absolute paths to ensure they load
     const swoosh = new Audio('assets/swoosh.mp3');
     const plink = new Audio('assets/logoplink.mp3');
     
-    // Preload sounds
-    swoosh.load();
-    plink.load();
+    // Set volume
+    swoosh.volume = 0.6;
+    plink.volume = 0.8;
 
     // Force the animation to start by adding a class
     loader.classList.add('active');
 
-    // Play entrance swoosh
-    swoosh.play().catch(() => console.log("Audio playback waiting for interaction"));
+    // Function to play sound with a fallback for browser restrictions
+    const playSound = (audio) => {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("Audio playback blocked. Click anywhere to enable sound.");
+                // Add a one-time listener to play on first interaction if blocked
+                document.addEventListener('click', () => {
+                    audio.play();
+                }, { once: true });
+            });
+        }
+    };
 
-    // Play plink when it hits the middle (around 0.6s)
+    // Play entrance swoosh immediately
+    playSound(swoosh);
+
+    // Play plink when it hits the middle and bounces (around 0.8s - 1.0s)
     setTimeout(() => {
-        plink.play().catch(() => {});
-    }, 600);
+        plink.currentTime = 0;
+        playSound(plink);
+    }, 1000);
 
     // Play exit swoosh (around 1.8s)
     setTimeout(() => {
         swoosh.currentTime = 0;
-        swoosh.play().catch(() => {});
+        playSound(swoosh);
     }, 1800);
 
     setTimeout(() => {
