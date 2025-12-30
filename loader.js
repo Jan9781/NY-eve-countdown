@@ -9,7 +9,7 @@ const LoaderSystem = {
         swooshPath: 'assets/swoosh.mp3',
         plinkPath: 'assets/logoplink.mp3',
         timings: {
-            plink: 1000,
+            plink: 1250, // Exactly at the 50% mark of the 2.5s animation
             exitSwoosh: 1800
         }
     },
@@ -20,19 +20,18 @@ const LoaderSystem = {
         
         if (!this.wrapper || !this.logo) return;
 
-        // Initialize Audio with crossOrigin for better compatibility
-        this.swoosh = new Audio();
-        this.swoosh.src = this.config.swooshPath;
-        this.swoosh.preload = 'auto';
+        // Initialize Audio
+        this.swoosh = new Audio(this.config.swooshPath);
+        this.plink = new Audio(this.config.plinkPath);
         
-        this.plink = new Audio();
-        this.plink.src = this.config.plinkPath;
-        this.plink.preload = 'auto';
-
         this.swoosh.volume = 0.5;
         this.plink.volume = 0.7;
 
-        // Try to "unlock" audio as aggressively as possible
+        // Preload
+        this.swoosh.load();
+        this.plink.load();
+
+        // Setup unlocking for browsers that block autoplay
         this.setupAudioUnlock();
 
         // Start the sequence
@@ -40,11 +39,12 @@ const LoaderSystem = {
     },
 
     setupAudioUnlock() {
-        // List of events that can unlock audio in various browsers
-        const unlockEvents = ['click', 'touchstart', 'keydown', 'mousedown', 'mousemove', 'wheel'];
+        // Only real user interactions can unlock audio
+        const unlockEvents = ['click', 'touchstart', 'keydown', 'mousedown'];
         
         const unlock = () => {
-            // Play and immediately pause to "prime" the audio engine
+            console.log("Audio unlocked via user gesture");
+            // Prime the audio
             this.swoosh.play().then(() => {
                 this.swoosh.pause();
                 this.swoosh.currentTime = 0;
@@ -55,7 +55,6 @@ const LoaderSystem = {
                 this.plink.currentTime = 0;
             }).catch(() => {});
 
-            // Remove listeners once unlocked
             unlockEvents.forEach(event => document.removeEventListener(event, unlock));
         };
 
