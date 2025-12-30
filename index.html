@@ -62,23 +62,41 @@
                             <i data-lucide="maximize" class="w-5 h-5"></i>
                         </button>
                         
-                        <div class="relative group">
-                            <button onclick="toggleThemeMenu()" class="p-2.5 rounded-xl hover:bg-white/10 transition-all text-slate-300 hover:text-white relative">
-                                <i data-lucide="palette" class="w-5 h-5"></i>
-                            </button>
-                            <!-- Theme Dropdown -->
-                            <div id="theme-menu" class="hidden absolute right-0 mt-3 w-56 glass rounded-2xl shadow-2xl border border-white/10 p-2 animate-in fade-in slide-in-from-top-2">
-                                <button onclick="setTheme('default')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm font-medium transition-colors">Standaard Slate</button>
-                                <button onclick="setTheme('midnight')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-500/20 text-sm font-medium transition-colors">Midnight Indigo</button>
-                                <button onclick="setTheme('aurora')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-emerald-500/20 text-sm font-medium transition-colors">Aurora Emerald</button>
-                                <button onclick="setTheme('sunset')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-rose-500/20 text-sm font-medium transition-colors">Sunset Rose</button>
-                            </div>
+                    <div class="relative">
+                        <button onclick="toggleThemeMenu()" class="p-2.5 rounded-xl hover:bg-white/10 transition-all text-slate-300 hover:text-white relative">
+                            <i data-lucide="palette" class="w-5 h-5"></i>
+                        </button>
+                        <!-- Theme Dropdown -->
+                        <div id="theme-menu" class="hidden absolute right-0 mt-3 w-56 glass rounded-2xl shadow-2xl border border-white/10 p-2 z-[100]">
+                            <button onclick="setTheme('default')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm font-medium transition-colors">Standaard Slate</button>
+                            <button onclick="setTheme('midnight')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-500/20 text-sm font-medium transition-colors">Midnight Indigo</button>
+                            <button onclick="setTheme('aurora')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-emerald-500/20 text-sm font-medium transition-colors">Aurora Emerald</button>
+                            <button onclick="setTheme('sunset')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-rose-500/20 text-sm font-medium transition-colors">Sunset Rose</button>
                         </div>
                     </div>
+                    </div>
 
-                    <button onclick="triggerDevMode()" class="bg-white text-slate-900 px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-100 transition-all shadow-xl active:scale-95 shimmer">
-                        Test Modus
-                    </button>
+                    <div class="relative">
+                        <button onclick="toggleDevMenu()" class="bg-white text-slate-900 px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-100 transition-all shadow-xl active:scale-95 shimmer">
+                            Test Modus
+                        </button>
+                        <!-- Dev Menu -->
+                        <div id="dev-menu" class="hidden absolute right-0 mt-3 w-64 glass rounded-2xl shadow-2xl border border-white/10 p-2 z-[100]">
+                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-4 py-2">Trigger Events</p>
+                            <button onclick="triggerNewYear()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-500/20 text-sm font-bold transition-colors flex items-center gap-2">
+                                <i data-lucide="party-popper" class="w-4 h-4"></i> Start Nieuwjaar
+                            </button>
+                            <button onclick="simulateExcitement('high')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-red-500/20 text-sm font-bold transition-colors flex items-center gap-2">
+                                <i data-lucide="zap" class="w-4 h-4"></i> 10s Excitement
+                            </button>
+                            <button onclick="simulateExcitement('low')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-yellow-500/20 text-sm font-bold transition-colors flex items-center gap-2">
+                                <i data-lucide="timer" class="w-4 h-4"></i> 1m Excitement
+                            </button>
+                            <button onclick="resetExcitement()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm font-bold transition-colors flex items-center gap-2">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset Status
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile Menu Button -->

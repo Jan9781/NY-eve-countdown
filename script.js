@@ -31,6 +31,18 @@ function updateCountdown() {
     updateElement("hours", String(hours).padStart(2, "0"));
     updateElement("minutes", String(minutes).padStart(2, "0"));
     updateElement("seconds", String(seconds).padStart(2, "0"));
+
+    // Excitement Logic
+    const body = document.body;
+    if (distance < 10000) { // 10 seconds
+        body.classList.add("excitement-high");
+        body.classList.remove("excitement-low");
+    } else if (distance < 60000) { // 1 minute
+        body.classList.add("excitement-low");
+        body.classList.remove("excitement-high");
+    } else {
+        body.classList.remove("excitement-low", "excitement-high");
+    }
 }
 
 function updateElement(id, value) {
@@ -142,8 +154,23 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 
 // Developer Mode / New Year Trigger
-function triggerDevMode() {
-    triggerNewYear();
+function toggleDevMenu() {
+    const menu = document.getElementById("dev-menu");
+    if (menu) menu.classList.toggle("hidden");
+    toggleThemeMenu(false);
+}
+
+function simulateExcitement(level) {
+    const body = document.body;
+    body.classList.remove("excitement-low", "excitement-high");
+    if (level === "high") body.classList.add("excitement-high");
+    if (level === "low") body.classList.add("excitement-low");
+    toggleDevMenu();
+}
+
+function resetExcitement() {
+    document.body.classList.remove("excitement-low", "excitement-high");
+    toggleDevMenu();
 }
 
 function triggerNewYear() {
@@ -161,6 +188,9 @@ function triggerNewYear() {
     
     startConfetti();
     createFireworks();
+    
+    const devMenu = document.getElementById("dev-menu");
+    if (devMenu) devMenu.classList.add("hidden");
 }
 
 // Confetti Effect
@@ -245,6 +275,8 @@ function createFireworks() {
 window.addEventListener("click", (e) => {
     if (!e.target.closest("button")) {
         toggleThemeMenu(false);
+        const devMenu = document.getElementById("dev-menu");
+        if (devMenu) devMenu.classList.add("hidden");
     }
 });
 
