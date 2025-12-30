@@ -20,28 +20,55 @@ const LoaderSystem = {
         
         if (!this.wrapper || !this.logo) return;
 
-        // Initialize Audio
-        this.swoosh = new Audio(this.config.swooshPath);
-        this.plink = new Audio(this.config.plinkPath);
+        // Initialize Audio with crossOrigin for better compatibility
+        this.swoosh = new Audio();
+        this.swoosh.src = this.config.swooshPath;
+        this.swoosh.preload = 'auto';
+        
+        this.plink = new Audio();
+        this.plink.src = this.config.plinkPath;
+        this.plink.preload = 'auto';
+
         this.swoosh.volume = 0.5;
         this.plink.volume = 0.7;
+
+        // Try to "unlock" audio as aggressively as possible
+        this.setupAudioUnlock();
 
         // Start the sequence
         this.startSequence();
     },
 
+    setupAudioUnlock() {
+        // List of events that can unlock audio in various browsers
+        const unlockEvents = ['click', 'touchstart', 'keydown', 'mousedown', 'mousemove', 'wheel'];
+        
+        const unlock = () => {
+            // Play and immediately pause to "prime" the audio engine
+            this.swoosh.play().then(() => {
+                this.swoosh.pause();
+                this.swoosh.currentTime = 0;
+            }).catch(() => {});
+            
+            this.plink.play().then(() => {
+                this.plink.pause();
+                this.plink.currentTime = 0;
+            }).catch(() => {});
+
+            // Remove listeners once unlocked
+            unlockEvents.forEach(event => document.removeEventListener(event, unlock));
+        };
+
+        unlockEvents.forEach(event => document.addEventListener(event, unlock, { once: true }));
+    },
+
     playSound(audio) {
+        // Attempt to play
         const playPromise = audio.play();
+        
         if (playPromise !== undefined) {
-            playPromise.catch(() => {
-                // If blocked, we'll try again on the first user interaction
-                const enableAudio = () => {
-                    audio.play();
-                    document.removeEventListener('click', enableAudio);
-                    document.removeEventListener('touchstart', enableAudio);
-                };
-                document.addEventListener('click', enableAudio);
-                document.addEventListener('touchstart', enableAudio);
+            playPromise.catch(error => {
+                console.warn("Autoplay prevented by browser. Audio will play on first movement/click.", error);
             });
         }
     },
@@ -83,9 +110,16 @@ const LoaderSystem = {
     }
 };
 
-// Execute immediately
+// Execute as soon as possible, but also try on window load for audio readiness
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => LoaderSystem.init());
 } else {
     LoaderSystem.init();
 }
+
+// Fallback to ensure it runs even if DOMContentLoaded was missed
+window.addEventListener('load', () => {
+    if (!document.getElementById('loader-wrapper').classList.contains('active')) {
+        LoaderSystem.init();
+    }
+});
