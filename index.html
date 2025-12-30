@@ -3,314 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaCount | De Ultieme 2026 Countdown Ervaring</title>
+    <title>2026 Countdown | De Ultieme Nieuwjaar Ervaring</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ["'Plus Jakarta Sans'", "sans-serif"],
+                    },
                     colors: {
                         primary: "var(--primary-hex)",
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    },
-                    animation: {
-                        "float": "float 6s ease-in-out infinite",
-                        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-                        "glow": "glow 2s ease-in-out infinite alternate",
-                    },
-                    keyframes: {
-                        float: {
-                            "0%, 100%": { transform: "translateY(0)" },
-                            "50%": { transform: "translateY(-20px)" },
-                        },
-                        glow: {
-                            "0%": { boxShadow: "0 0 5px rgba(99, 102, 241, 0.2)" },
-                            "100%": { boxShadow: "0 0 20px rgba(99, 102, 241, 0.6)" },
-                        }
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="theme-default dark:bg-slate-950 selection:bg-indigo-500/30">
+<body class="theme-gold overflow-x-hidden">
     <canvas id="confetti-canvas"></canvas>
+    
+    <!-- Background Elements -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div id="snow-container" class="absolute inset-0"></div>
+        <div id="festive-container"></div>
+    </div>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center gap-3">
-                    <div class="bg-primary p-2 rounded-xl shadow-lg shadow-indigo-500/20">
-                        <i data-lucide="glass-water" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <span class="text-2xl font-black tracking-tighter text-white">NovaCount</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-8 transition-all duration-500" id="main-nav">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+                    <i data-lucide="sparkles" class="w-6 h-6 text-black"></i>
                 </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="#features" class="text-sm font-semibold text-slate-300 hover:text-white transition-colors">Functies</a>
-                    <a href="#testimonials" class="text-sm font-semibold text-slate-300 hover:text-white transition-colors">Reviews</a>
-                    
-                    <div class="flex items-center gap-3 border-l border-white/10 pl-6">
-                        <button onclick="toggleFullscreen()" class="p-2.5 rounded-xl hover:bg-white/10 transition-all text-slate-300 hover:text-white" title="Volledig scherm">
-                            <i data-lucide="maximize" class="w-5 h-5"></i>
-                        </button>
-                        
-                    <div class="relative">
-                        <button onclick="toggleThemeMenu()" class="p-2.5 rounded-xl hover:bg-white/10 transition-all text-slate-300 hover:text-white relative">
-                            <i data-lucide="palette" class="w-5 h-5"></i>
-                        </button>
-                        <!-- Theme Dropdown -->
-                        <div id="theme-menu" class="hidden absolute right-0 mt-3 w-56 glass rounded-2xl shadow-2xl border border-white/20 p-2 z-[100]">
-                            <button onclick="setTheme('default')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Standaard Slate</button>
-                            <button onclick="setTheme('midnight')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Midnight Indigo</button>
-                            <button onclick="setTheme('aurora')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Aurora Emerald</button>
-                            <button onclick="setTheme('sunset')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Sunset Rose</button>
-                            <button onclick="setTheme('gold')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Gold & Luxury</button>
-                        </div>
-                    </div>
-                    </div>
+                <span class="text-xl font-extrabold tracking-tighter text-white">NY2026</span>
+            </div>
 
-                    <div class="relative">
-                        <button onclick="toggleDevMenu()" class="bg-white text-slate-900 px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-100 transition-all shadow-xl active:scale-95 shimmer">
-                            Test Modus
-                        </button>
-                        <!-- Dev Menu -->
-                        <div id="dev-menu" class="hidden absolute right-0 mt-3 w-64 glass rounded-2xl shadow-2xl border border-white/20 p-2 z-[100]">
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-2">Trigger Events</p>
-                            <button onclick="triggerNewYear()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
-                                <i data-lucide="party-popper" class="w-4 h-4"></i> Start Nieuwjaar
-                            </button>
-                            <button onclick="simulateExcitement('high')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
-                                <i data-lucide="zap" class="w-4 h-4"></i> 10s Excitement
-                            </button>
-                            <button onclick="simulateExcitement('low')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
-                                <i data-lucide="timer" class="w-4 h-4"></i> 1m Excitement
-                            </button>
-                            <button onclick="resetExcitement()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
-                                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset Status
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center gap-4">
-                    <button onclick="toggleMobileMenu()" class="p-2 text-white">
-                        <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleFullscreen()" class="p-3 rounded-full glass hover:bg-white/10 transition-all text-white" title="Focus Mode">
+                    <i data-lucide="maximize-2" class="w-5 h-5"></i>
+                </button>
+                <div class="relative">
+                    <button onclick="toggleThemeMenu()" class="p-3 rounded-full glass hover:bg-white/10 transition-all text-white">
+                        <i data-lucide="palette" class="w-5 h-5"></i>
                     </button>
+                    <div id="theme-menu" class="hidden absolute right-0 mt-4 w-48 glass rounded-2xl p-2 shadow-2xl border border-white/10">
+                        <button onclick="setTheme('gold')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-white/10 text-sm font-bold text-white">Gold & Night</button>
+                        <button onclick="setTheme('midnight')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-white/10 text-sm font-bold text-white">Midnight Blue</button>
+                        <button onclick="setTheme('aurora')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-white/10 text-sm font-bold text-white">Aurora Green</button>
+                        <button onclick="setTheme('sunset')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-white/10 text-sm font-bold text-white">Sunset Rose</button>
+                    </div>
                 </div>
+                <button onclick="toggleDevMenu()" class="px-6 py-2.5 bg-white text-black rounded-full text-sm font-bold hover:scale-105 transition-all active:scale-95">
+                    Test
+                </button>
             </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10 p-6 space-y-6">
-            <a href="#features" class="block text-lg font-semibold text-slate-200">Functies</a>
-            <a href="#testimonials" class="block text-lg font-semibold text-slate-200">Reviews</a>
-            <div class="pt-6 border-t border-white/10">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Thema's</p>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="setTheme('default')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Slate</button>
-                    <button onclick="setTheme('midnight')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Midnight</button>
-                    <button onclick="setTheme('aurora')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Aurora</button>
-                    <button onclick="setTheme('sunset')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Sunset</button>
-                    <button onclick="setTheme('gold')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Gold</button>
-                </div>
-            </div>
-            <button onclick="triggerDevMode()" class="w-full bg-white text-slate-900 py-4 rounded-2xl font-bold shadow-xl">Start Nieuwjaar</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section relative pt-40 pb-24 md:pt-56 md:pb-40 overflow-hidden">
-        <!-- Background Blobs -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/30 rounded-full blur-[120px] animate-pulse-slow"></div>
-            <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow" style="animation-delay: 2s"></div>
-        </div>
-
-        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-widest mb-8">
+    <!-- Main Content -->
+    <main class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
+        <div id="hero-content" class="text-center max-w-4xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-widest mb-8 animate-fade-in">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
                 Aftellen naar 2026
             </div>
-            
-            <h1 class="reveal text-6xl md:text-8xl font-black text-white tracking-tighter mb-8 leading-[0.9] animate-zoom">
-                De Toekomst is <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">Bijna Hier.</span>
+
+            <h1 class="text-6xl md:text-9xl font-black text-white tracking-tighter mb-12 leading-none animate-slide-up">
+                Het Nieuwe Jaar <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">Wacht op Je.</span>
             </h1>
-            
-            <p class="reveal text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto mb-16 leading-relaxed font-medium">
-                Beleef de mooiste countdown naar het nieuwe jaar. Precisie-techniek voor de perfecte overgang naar 2026.
-            </p>
 
-            <!-- Countdown Timer -->
-            <div id="countdown-container" class="reveal flex flex-wrap justify-center gap-4 md:gap-10 mb-20 animate-float">
-                <div class="countdown-item group">
-                    <div class="sparkle-container"></div>
-                    <span id="days" class="text-5xl md:text-7xl font-black number-animate text-primary group-hover:text-white transition-colors number-shimmer">00</span>
-                    <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Dagen</span>
+            <!-- Countdown Grid -->
+            <div id="countdown-container" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
+                <!-- Days -->
+                <div class="countdown-card group">
+                    <div class="relative z-10">
+                        <span id="days" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Dagen</span>
+                    </div>
                 </div>
-                <div class="countdown-item group">
-                    <div class="sparkle-container"></div>
-                    <span id="hours" class="text-5xl md:text-7xl font-black number-animate text-primary group-hover:text-white transition-colors number-shimmer">00</span>
-                    <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Uren</span>
+                <!-- Hours -->
+                <div class="countdown-card group">
+                    <div class="relative z-10">
+                        <span id="hours" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Uren</span>
+                    </div>
                 </div>
-                <div class="countdown-item group">
-                    <div class="sparkle-container"></div>
-                    <span id="minutes" class="text-5xl md:text-7xl font-black number-animate text-primary group-hover:text-white transition-colors number-shimmer">00</span>
-                    <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Minuten</span>
+                <!-- Minutes -->
+                <div class="countdown-card group">
+                    <div class="relative z-10">
+                        <span id="minutes" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Minuten</span>
+                    </div>
                 </div>
-                <div class="countdown-item group">
-                    <div class="sparkle-container"></div>
-                    <span id="seconds" class="text-5xl md:text-7xl font-black number-animate text-primary group-hover:text-white transition-colors number-shimmer">00</span>
-                    <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Seconden</span>
+                <!-- Seconds -->
+                <div class="countdown-card group">
+                    <div class="relative z-10">
+                        <span id="seconds" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Seconden</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Celebration Message (Hidden by default) -->
-            <div id="celebration-msg" class="hidden reveal text-center py-10">
-                <h2 class="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-red-600 animate-bounce tracking-tighter">
-                    GELUKKIG 2026!
-                </h2>
-                <p class="text-3xl text-white font-bold mt-6">Een nieuw hoofdstuk begint vandaag.</p>
+            <div id="celebration-msg" class="hidden animate-bounce">
+                <h2 class="text-4xl md:text-6xl font-black text-primary mb-4">GELUKKIG NIEUWJAAR! 🎆</h2>
+                <p class="text-white/60 text-xl">Welkom in 2026.</p>
             </div>
+        </div>
 
-            <div class="hero-buttons reveal flex flex-col sm:flex-row items-center justify-center gap-6">
-                <button class="w-full sm:w-auto px-10 py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-500/40 hover:-translate-y-1 active:scale-95 shimmer">
-                    Ontvang Melding
+        <!-- Dev Menu -->
+        <div id="dev-menu" class="hidden fixed bottom-8 right-8 glass rounded-3xl p-4 border border-white/10 shadow-2xl z-[100] w-64">
+            <p class="text-[10px] font-black text-white/40 uppercase tracking-widest mb-4 px-2">Developer Tools</p>
+            <div class="space-y-2">
+                <button onclick="triggerNewYear()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-primary/20 text-sm font-bold text-white flex items-center gap-3 transition-all">
+                    <i data-lucide="party-popper" class="w-4 h-4"></i> Start 2026
                 </button>
-                <button onclick="toggleThemeMenu()" class="w-full sm:w-auto px-10 py-5 bg-white/5 text-white border border-white/10 rounded-2xl font-black text-xl hover:bg-white/10 transition-all hover:-translate-y-1 active:scale-95">
-                    Bekijk Thema's
+                <button onclick="simulateExcitement('high')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-red-500/20 text-sm font-bold text-white flex items-center gap-3 transition-all">
+                    <i data-lucide="zap" class="w-4 h-4"></i> 10s Mode
+                </button>
+                <button onclick="resetExcitement()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm font-bold text-white flex items-center gap-3 transition-all">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset
                 </button>
             </div>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-32 bg-slate-900/50 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <h2 class="reveal text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">Waarom NovaCount?</h2>
-                <p class="reveal text-slate-400 text-lg max-w-2xl mx-auto font-medium">We hebben 's werelds meest nauwkeurige en visueel verbluffende countdown-engine gebouwd.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-10">
-                <!-- Feature 1 -->
-                <div class="reveal p-10 rounded-[2.5rem] border border-white/5 bg-white/5 hover:border-indigo-500/50 hover:bg-white/10 transition-all group">
-                    <div class="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform shadow-lg shadow-indigo-500/10">
-                        <i data-lucide="zap" class="w-7 h-7 text-indigo-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Atomaire Precisie</h3>
-                    <p class="text-slate-400 leading-relaxed font-medium">Gesynchroniseerd met wereldwijde tijdservers om te zorgen dat je geen milliseconde mist.</p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="reveal p-10 rounded-[2.5rem] border border-white/5 bg-white/5 hover:border-purple-500/50 hover:bg-white/10 transition-all group" style="transition-delay: 0.1s">
-                    <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/10">
-                        <i data-lucide="layers" class="w-7 h-7 text-purple-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Dynamische Thema's</h3>
-                    <p class="text-slate-400 leading-relaxed font-medium">Wissel tussen meerdere professioneel ontworpen thema's die passen bij jouw sfeer.</p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="reveal p-10 rounded-[2.5rem] border border-white/5 bg-white/5 hover:border-emerald-500/50 hover:bg-white/10 transition-all group" style="transition-delay: 0.2s">
-                    <div class="w-14 h-14 bg-emerald-500/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform shadow-lg shadow-emerald-500/10">
-                        <i data-lucide="share-2" class="w-7 h-7 text-emerald-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-4">Social Ready</h3>
-                    <p class="text-slate-400 leading-relaxed font-medium">Deel met één klik op Instagram, TikTok en Twitter met aangepaste countdown-kaarten.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section id="testimonials" class="py-32 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-20 items-center">
-                <div>
-                    <h2 class="reveal text-4xl md:text-5xl font-black text-white mb-8 tracking-tight leading-tight">Geliefd door miljoenen feestvierders.</h2>
-                    <p class="reveal text-slate-400 text-lg mb-10 font-medium">Sluit je aan bij de community die NovaCount vertrouwt voor hun belangrijkste momenten.</p>
-                    <div class="reveal flex gap-4">
-                        <div class="flex -space-x-4">
-                            <img src="https://i.pravatar.cc/100?u=1" class="w-14 h-14 rounded-full border-4 border-slate-950" alt="User">
-                            <img src="https://i.pravatar.cc/100?u=2" class="w-14 h-14 rounded-full border-4 border-slate-950" alt="User">
-                            <img src="https://i.pravatar.cc/100?u=3" class="w-14 h-14 rounded-full border-4 border-slate-950" alt="User">
-                            <div class="w-14 h-14 rounded-full border-4 border-slate-950 bg-indigo-600 flex items-center justify-center text-white text-xs font-black">+10k</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="reveal space-y-8">
-                    <div class="glass p-8 rounded-3xl shadow-2xl border border-white/5">
-                        <p class="text-slate-300 text-lg italic mb-6 leading-relaxed">"De animaties zijn zo vloeiend. Het maakte ons nieuwjaarsfeest echt speciaal!"</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
-                                <i data-lucide="user" class="w-5 h-5 text-indigo-400"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-white">Sarah Jenkins</div>
-                                <div class="text-slate-500 text-sm font-bold uppercase tracking-wider">Event Planner</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="glass p-8 rounded-3xl shadow-2xl border border-white/5 md:ml-12">
-                        <p class="text-slate-300 text-lg italic mb-6 leading-relaxed">"Eindelijk een countdown die er modern uitziet. Strak, professioneel en perfect."</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                                <i data-lucide="user" class="w-5 h-5 text-purple-400"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-white">Marcus Chen</div>
-                                <div class="text-slate-500 text-sm font-bold uppercase tracking-wider">Tech Enthusiast</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-white/5 py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-12">
-                <div class="flex items-center gap-3">
-                    <div class="bg-indigo-600 p-2 rounded-xl">
-                        <i data-lucide="clock" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <span class="text-2xl font-black tracking-tighter text-white">NovaCount</span>
-                </div>
-                <div class="flex gap-10 text-sm font-bold text-slate-500">
-                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
-                    <a href="#" class="hover:text-white transition-colors">Voorwaarden</a>
-                    <a href="#" class="hover:text-white transition-colors">Contact</a>
-                </div>
-                <div class="flex gap-5">
-                    <a href="#" class="p-3 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10 transition-all">
-                        <i data-lucide="twitter" class="w-6 h-6"></i>
-                    </a>
-                    <a href="#" class="p-3 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10 transition-all">
-                        <i data-lucide="instagram" class="w-6 h-6"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="mt-12 pt-12 border-t border-white/5 text-center text-sm font-bold text-slate-600">
-                &copy; 2025 NovaCount. Gebouwd voor de toekomst.
-            </div>
-        </div>
-    </footer>
+    </main>
 
     <script src="script.js"></script>
 </body>

@@ -1,40 +1,10 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
-// Festive Decorations
-function createFestiveElements() {
-    const icons = ['party-popper', 'sparkles', 'star', 'gift', 'glass-water'];
-    const container = document.body;
-    
-    for (let i = 0; i < 30; i++) {
-        const el = document.createElement('div');
-        el.className = 'festive-element opacity-20 dark:opacity-10';
-        const iconName = icons[Math.floor(Math.random() * icons.length)];
-        el.innerHTML = `<i data-lucide="${iconName}" class="w-8 h-8 text-primary"></i>`;
-        
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.top = Math.random() * 100 + 'vh';
-        el.style.animationDelay = Math.random() * 10 + 's';
-        el.style.animationDuration = (Math.random() * 15 + 10) + 's';
-        
-        container.appendChild(el);
-    }
-    lucide.createIcons();
-}
-
-createFestiveElements();
-
 // Countdown Logic
 const targetDate = new Date("January 1, 2026 00:00:00").getTime();
 let isNewYear = false;
-
-// Store previous values to detect changes for animations
-let prevValues = {
-    days: null,
-    hours: null,
-    minutes: null,
-    seconds: null
-};
+let prevValues = { days: null, hours: null, minutes: null, seconds: null };
 
 function updateCountdown() {
     const now = new Date().getTime();
@@ -54,31 +24,17 @@ function updateCountdown() {
     updateElement("hours", String(hours).padStart(2, "0"));
     updateElement("minutes", String(minutes).padStart(2, "0"));
     updateElement("seconds", String(seconds).padStart(2, "0"));
-
-    // Excitement Logic
-    const body = document.body;
-    if (distance < 10000) { // 10 seconds
-        body.classList.add("excitement-high");
-        body.classList.remove("excitement-low");
-    } else if (distance < 60000) { // 1 minute
-        body.classList.add("excitement-low");
-        body.classList.remove("excitement-high");
-    } else {
-        body.classList.remove("excitement-low", "excitement-high");
-    }
 }
 
 function updateElement(id, value) {
     const el = document.getElementById(id);
-    if (!el) return;
+    if (!el || prevValues[id] === value) return;
 
-    if (prevValues[id] !== value) {
-        el.innerText = value;
-        el.classList.remove("number-change");
-        void el.offsetWidth; // Trigger reflow
-        el.classList.add("number-change");
-        prevValues[id] = value;
-    }
+    el.innerText = value;
+    el.classList.remove("number-pop");
+    void el.offsetWidth; // Trigger reflow
+    el.classList.add("number-pop");
+    prevValues[id] = value;
 }
 
 const timerInterval = setInterval(updateCountdown, 1000);
@@ -86,59 +42,27 @@ updateCountdown();
 
 // Theme Management
 function setTheme(theme) {
-    const body = document.body;
-    const html = document.documentElement;
-    
-    // Reset all theme classes
-    body.classList.remove("theme-midnight", "theme-aurora", "theme-sunset", "theme-gold");
-    
-    if (theme === "midnight") {
-        body.classList.add("theme-midnight");
-    } else if (theme === "aurora") {
-        body.classList.add("theme-aurora");
-    } else if (theme === "sunset") {
-        body.classList.add("theme-sunset");
-    } else if (theme === "gold") {
-        body.classList.add("theme-gold");
-    }
-    
-    html.classList.add("dark");
+    document.body.className = `theme-${theme} overflow-x-hidden`;
+    localStorage.setItem('ny-theme', theme);
     toggleThemeMenu(false);
 }
 
-// Sparkle Spawning
-function createSparkles() {
-    const containers = document.querySelectorAll('.sparkle-container');
-    containers.forEach(container => {
-        setInterval(() => {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.top = Math.random() * 100 + '%';
-            sparkle.style.width = (Math.random() * 4 + 2) + 'px';
-            sparkle.style.height = sparkle.style.width;
-            container.appendChild(sparkle);
-            
-            setTimeout(() => sparkle.remove(), 2000);
-        }, 400);
-    });
-}
+// Load saved theme
+const savedTheme = localStorage.getItem('ny-theme');
+if (savedTheme) setTheme(savedTheme);
 
-createSparkles();
-
+// UI Toggles
 function toggleThemeMenu(show) {
     const menu = document.getElementById("theme-menu");
-    if (!menu) return;
-    if (show === undefined) {
-        menu.classList.toggle("hidden");
-    } else {
-        show ? menu.classList.remove("hidden") : menu.classList.add("hidden");
-    }
+    if (show === undefined) menu.classList.toggle("hidden");
+    else show ? menu.classList.remove("hidden") : menu.classList.add("hidden");
+    if (!menu.classList.contains("hidden")) document.getElementById("dev-menu").classList.add("hidden");
 }
 
-function toggleMobileMenu() {
-    const menu = document.getElementById("mobile-menu");
-    if (menu) menu.classList.toggle("hidden");
+function toggleDevMenu() {
+    const menu = document.getElementById("dev-menu");
+    menu.classList.toggle("hidden");
+    document.getElementById("theme-menu").classList.add("hidden");
 }
 
 // Fullscreen Mode
@@ -146,169 +70,143 @@ function toggleFullscreen() {
     if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().then(() => {
             document.body.classList.add("fullscreen-mode");
-        }).catch(err => {
-            console.error(`Error attempting to enable full-screen mode: ${err.message}`);
         });
     } else {
-        if (document.exitFullscreen) {
-            document.exitFullscreen().then(() => {
-                document.body.classList.remove("fullscreen-mode");
-            });
-        }
+        document.exitFullscreen();
     }
 }
 
-// Listen for fullscreen change (e.g. Esc key)
 document.addEventListener("fullscreenchange", () => {
     if (!document.fullscreenElement) {
         document.body.classList.remove("fullscreen-mode");
     }
 });
 
-// Reveal on Scroll
-const observerOptions = {
-    threshold: 0.1
-};
+// Festive Elements Spawning
+function createFestiveElements() {
+    const container = document.getElementById('festive-container');
+    const icons = ['sparkles', 'star', 'party-popper', 'gift', 'glass-water', 'music', 'heart'];
+    
+    for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div');
+        el.className = 'festive-element';
+        const icon = icons[Math.floor(Math.random() * icons.length)];
+        el.innerHTML = `<i data-lucide="${icon}" class="w-6 h-6 text-primary"></i>`;
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = Math.random() * 100 + 'vh';
+        el.style.animationDuration = (Math.random() * 15 + 15) + 's';
+        el.style.animationDelay = (Math.random() * 10) + 's';
+        container.appendChild(el);
+    }
+    lucide.createIcons();
+}
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("active");
+// Snow Effect
+function createSnow() {
+    const container = document.getElementById('snow-container');
+    const count = 150;
+    
+    for (let i = 0; i < count; i++) {
+        const snow = document.createElement('div');
+        snow.className = 'snowflake';
+        
+        const size = Math.random() * 3 + 2;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10;
+        const delay = Math.random() * -20;
+        const opacity = Math.random() * 0.5 + 0.3;
+        
+        snow.style.width = `${size}px`;
+        snow.style.height = `${size}px`;
+        snow.style.left = `${left}vw`;
+        snow.style.animationDuration = `${duration}s`;
+        snow.style.animationDelay = `${delay}s`;
+        snow.style.opacity = opacity;
+        snow.style.filter = `blur(${Math.random() * 1}px)`;
+        
+        container.appendChild(snow);
+    }
+}
+
+createFestiveElements();
+createSnow();
+
+// Confetti System
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height - canvas.height;
+        this.size = Math.random() * 8 + 4;
+        this.speed = Math.random() * 3 + 2;
+        this.color = `hsl(${Math.random() * 360}, 70%, 60%)`;
+        this.angle = Math.random() * 360;
+        this.spin = Math.random() * 5 - 2.5;
+    }
+    update() {
+        this.y += this.speed;
+        this.angle += this.spin;
+        if (this.y > canvas.height) {
+            this.y = -20;
+            this.x = Math.random() * canvas.width;
         }
-    });
-}, observerOptions);
-
-document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-// Developer Mode / New Year Trigger
-function toggleDevMenu() {
-    const menu = document.getElementById("dev-menu");
-    if (menu) menu.classList.toggle("hidden");
-    toggleThemeMenu(false);
-}
-
-function simulateExcitement(level) {
-    const body = document.body;
-    body.classList.remove("excitement-low", "excitement-high");
-    if (level === "high") body.classList.add("excitement-high");
-    if (level === "low") body.classList.add("excitement-low");
-    toggleDevMenu();
-}
-
-function resetExcitement() {
-    document.body.classList.remove("excitement-low", "excitement-high");
-    toggleDevMenu();
+    }
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle * Math.PI / 180);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+        ctx.restore();
+    }
 }
 
 function triggerNewYear() {
     isNewYear = true;
-    clearInterval(timerInterval);
+    document.getElementById('countdown-container').classList.add('hidden');
+    document.getElementById('celebration-msg').classList.remove('hidden');
     
-    const container = document.getElementById("countdown-container");
-    if (container) container.classList.add("hidden");
-    
-    const msg = document.getElementById("celebration-msg");
-    if (msg) {
-        msg.classList.remove("hidden");
-        msg.classList.add("active");
-    }
-    
-    startConfetti();
-    createFireworks();
-    
-    const devMenu = document.getElementById("dev-menu");
-    if (devMenu) devMenu.classList.add("hidden");
-}
-
-// Confetti Effect
-function startConfetti() {
-    const canvas = document.getElementById("confetti-canvas");
-    if (!canvas) return;
-    canvas.style.display = "block";
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const particles = [];
-    const colors = ["#6366f1", "#a855f7", "#ec4899", "#eab308", "#22c55e"];
-
     for (let i = 0; i < 150; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height - canvas.height,
-            size: Math.random() * 10 + 5,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            speed: Math.random() * 3 + 2,
-            angle: Math.random() * 360
-        });
+        particles.push(new Particle());
     }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            ctx.save();
-            ctx.translate(p.x, p.y);
-            ctx.rotate(p.angle * Math.PI / 180);
-            ctx.fillStyle = p.color;
-            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-            ctx.restore();
-
-            p.y += p.speed;
-            p.angle += 2;
-            if (p.y > canvas.height) p.y = -20;
-        });
-        requestAnimationFrame(draw);
-    }
-    draw();
+    animateConfetti();
 }
 
-function createFireworks() {
-    const container = document.body;
-    for (let i = 0; i < 10; i++) {
-        setTimeout(() => {
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * (window.innerHeight / 2);
-            const color = `hsl(${Math.random() * 360}, 70%, 60%)`;
-            
-            for (let j = 0; j < 30; j++) {
-                const firework = document.createElement("div");
-                firework.className = "firework";
-                firework.style.left = x + "px";
-                firework.style.top = y + "px";
-                firework.style.backgroundColor = color;
-                container.appendChild(firework);
-
-                const angle = (j / 30) * Math.PI * 2;
-                const velocity = Math.random() * 100 + 50;
-                const vx = Math.cos(angle) * velocity;
-                const vy = Math.sin(angle) * velocity;
-
-                firework.animate([
-                    { transform: "translate(0, 0) scale(1)", opacity: 1 },
-                    { transform: `translate(${vx}px, ${vy}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 1000,
-                    easing: "ease-out",
-                    fill: "forwards"
-                });
-
-                setTimeout(() => firework.remove(), 1000);
-            }
-        }, i * 500);
-    }
+function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+    requestAnimationFrame(animateConfetti);
 }
 
-// Close dropdown on click outside
-window.addEventListener("click", (e) => {
-    if (!e.target.closest("button")) {
+// Dev Tools
+function simulateExcitement(mode) {
+    if (mode === 'high') {
+        triggerNewYear();
+    }
+    toggleDevMenu();
+}
+
+function resetExcitement() {
+    location.reload();
+}
+
+// Close menus on click outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.relative') && !e.target.closest('#dev-menu') && !e.target.closest('button')) {
         toggleThemeMenu(false);
-        const devMenu = document.getElementById("dev-menu");
-        if (devMenu) devMenu.classList.add("hidden");
+        document.getElementById('dev-menu').classList.add('hidden');
     }
-});
-
-// Set default dark mode on load
-document.addEventListener("DOMContentLoaded", () => {
-    document.documentElement.classList.add("dark");
-    setTheme("default");
 });
