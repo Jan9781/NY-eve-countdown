@@ -1,6 +1,17 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
+// Loader Logic
+window.addEventListener('load', () => {
+    const loader = document.getElementById('loader-wrapper');
+    setTimeout(() => {
+        loader.classList.add('fade-out');
+        setTimeout(() => {
+            loader.remove();
+        }, 1000);
+    }, 2500); // Matches the CSS animation duration
+});
+
 // Countdown Logic
 const targetDate = new Date("January 1, 2026 00:00:00").getTime();
 let isNewYear = false;
