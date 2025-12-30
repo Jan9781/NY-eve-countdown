@@ -173,13 +173,40 @@ class Particle {
 
 function triggerNewYear() {
     isNewYear = true;
-    document.getElementById('countdown-container').classList.add('hidden');
-    document.getElementById('celebration-msg').classList.remove('hidden');
+    const countdown = document.getElementById('countdown-container');
+    const celebration = document.getElementById('celebration-msg');
     
-    for (let i = 0; i < 150; i++) {
-        particles.push(new Particle());
-    }
-    animateConfetti();
+    // Play celebration sound
+    const celebrateAudio = new Audio('assets/celebrate_6Ly1unY.mp3');
+    celebrateAudio.volume = 0.8;
+    celebrateAudio.play().catch(e => console.log("Celebration audio blocked:", e));
+
+    // Animate out countdown
+    countdown.style.transition = "all 1s cubic-bezier(0.34, 1.56, 0.64, 1)";
+    countdown.style.transform = "scale(0) rotate(20deg)";
+    countdown.style.opacity = "0";
+
+    setTimeout(() => {
+        countdown.classList.add('hidden');
+        celebration.classList.remove('hidden');
+        celebration.classList.add('animate-celebrate-in');
+        
+        // Intense confetti burst
+        for (let i = 0; i < 300; i++) {
+            particles.push(new Particle());
+        }
+        animateConfetti();
+        
+        // Continuous bursts
+        const interval = setInterval(() => {
+            if (particles.length < 500) {
+                for (let i = 0; i < 50; i++) particles.push(new Particle());
+            }
+        }, 2000);
+        
+        // Stop bursts after 30 seconds
+        setTimeout(() => clearInterval(interval), 30000);
+    }, 800);
 }
 
 function animateConfetti() {

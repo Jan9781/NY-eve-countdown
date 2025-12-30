@@ -202,7 +202,8 @@ body.fullscreen-mode {
 }
 
 body.fullscreen-mode nav,
-body.fullscreen-mode #hero-content > *:not(#countdown-container):not(#celebration-msg) {
+body.fullscreen-mode #hero-content > *:not(#countdown-container):not(#celebration-msg),
+body.fullscreen-mode h1 {
     opacity: 0;
     pointer-events: none;
 }
@@ -315,4 +316,24 @@ body.fullscreen-mode #countdown-container {
 @keyframes menu-pop {
     from { opacity: 0; transform: scale(0.9) translateY(-10px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Celebration Animation */
+.animate-celebrate-in {
+    animation: celebrate-in 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes celebrate-in {
+    0% { transform: scale(0.5) translateY(100px); opacity: 0; filter: blur(20px); }
+    50% { transform: scale(1.1) translateY(-20px); filter: blur(0); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+#celebration-msg h2 {
+    background: linear-gradient(to right, #fff, var(--primary-hex), #fff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
 }
