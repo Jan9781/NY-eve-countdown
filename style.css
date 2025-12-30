@@ -76,6 +76,11 @@ body {
 
 /* Loader Animation */
 #loader-logo {
+    opacity: 0;
+    transform: translate(-100vw, -100vh) rotate(-45deg) scale(0.5);
+}
+
+#loader-wrapper.active #loader-logo {
     animation: loader-entrance 2.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
 
@@ -84,7 +89,7 @@ body {
         transform: translate(-100vw, -100vh) rotate(-45deg) scale(0.5);
         opacity: 0;
     }
-    30%, 70% {
+    20%, 80% {
         transform: translate(0, 0) rotate(0deg) scale(1);
         opacity: 1;
     }
@@ -97,6 +102,7 @@ body {
 #loader-wrapper.fade-out {
     opacity: 0;
     pointer-events: none;
+    transition: opacity 1s ease;
 }
 
 /* Advanced Animations */

@@ -2,15 +2,27 @@
 lucide.createIcons();
 
 // Loader Logic
-window.addEventListener('load', () => {
+function startLoader() {
     const loader = document.getElementById('loader-wrapper');
+    if (!loader) return;
+
+    // Force the animation to start by adding a class
+    loader.classList.add('active');
+
     setTimeout(() => {
         loader.classList.add('fade-out');
         setTimeout(() => {
             loader.remove();
         }, 1000);
-    }, 2500); // Matches the CSS animation duration
-});
+    }, 2500); // Matches the 2.5s animation duration
+}
+
+// Run as soon as the DOM is ready, don't wait for images/assets
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startLoader);
+} else {
+    startLoader();
+}
 
 // Countdown Logic
 const targetDate = new Date("January 1, 2026 00:00:00").getTime();
