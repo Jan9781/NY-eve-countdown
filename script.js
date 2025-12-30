@@ -71,7 +71,7 @@ function setTheme(theme) {
         updateColors("text-rose-400", "bg-rose-500");
     } else if (theme === "default") {
         html.classList.add("dark");
-        updateColors("text-indigo-600", "bg-indigo-600");
+        updateColors("text-indigo-400", "bg-indigo-600");
     }
     
     toggleThemeMenu(false);
@@ -79,7 +79,7 @@ function setTheme(theme) {
 
 function updateColors(textClass, bgClass) {
     document.querySelectorAll(".countdown-item span:first-child").forEach(el => {
-        el.className = `text-4xl md:text-6xl font-black number-animate ${textClass}`;
+        el.className = `text-5xl md:text-7xl font-black number-animate ${textClass} group-hover:text-white transition-colors`;
     });
     document.querySelectorAll(".bg-indigo-600, .bg-emerald-500, .bg-rose-500, .bg-indigo-500").forEach(el => {
         el.classList.remove("bg-indigo-600", "bg-emerald-500", "bg-rose-500", "bg-indigo-500");

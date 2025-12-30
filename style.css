@@ -40,7 +40,8 @@ body.fullscreen-mode nav,
 body.fullscreen-mode footer,
 body.fullscreen-mode section:not(.hero-section),
 body.fullscreen-mode .hero-content > *:not(#countdown-container):not(#celebration-msg),
-body.fullscreen-mode .hero-buttons {
+body.fullscreen-mode .hero-buttons,
+body.fullscreen-mode .hero-section > div:first-child {
     display: none !important;
 }
 
