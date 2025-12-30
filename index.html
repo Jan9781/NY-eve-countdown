@@ -16,7 +16,7 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: "rgb(var(--primary) / <alpha-value>)",
+                        primary: "var(--primary-hex)",
                     },
                     fontFamily: {
                         sans: ["Inter", "sans-serif"],
@@ -71,11 +71,11 @@
                         </button>
                         <!-- Theme Dropdown -->
                         <div id="theme-menu" class="hidden absolute right-0 mt-3 w-56 glass rounded-2xl shadow-2xl border border-white/20 p-2 z-[100]">
-                            <button onclick="setTheme('default')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-white/10 text-sm font-bold text-white transition-colors">Standaard Slate</button>
-                            <button onclick="setTheme('midnight')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-500/40 text-sm font-bold text-white transition-colors">Midnight Indigo</button>
-                            <button onclick="setTheme('aurora')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-emerald-500/40 text-sm font-bold text-white transition-colors">Aurora Emerald</button>
-                            <button onclick="setTheme('sunset')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-rose-500/40 text-sm font-bold text-white transition-colors">Sunset Rose</button>
-                            <button onclick="setTheme('gold')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-amber-500/40 text-sm font-bold text-white transition-colors">Gold & Luxury</button>
+                            <button onclick="setTheme('default')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Standaard Slate</button>
+                            <button onclick="setTheme('midnight')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Midnight Indigo</button>
+                            <button onclick="setTheme('aurora')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Aurora Emerald</button>
+                            <button onclick="setTheme('sunset')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Sunset Rose</button>
+                            <button onclick="setTheme('gold')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors">Gold & Luxury</button>
                         </div>
                     </div>
                     </div>
@@ -87,16 +87,16 @@
                         <!-- Dev Menu -->
                         <div id="dev-menu" class="hidden absolute right-0 mt-3 w-64 glass rounded-2xl shadow-2xl border border-white/20 p-2 z-[100]">
                             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-4 py-2">Trigger Events</p>
-                            <button onclick="triggerNewYear()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-500/40 text-sm font-bold text-white transition-colors flex items-center gap-2">
+                            <button onclick="triggerNewYear()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
                                 <i data-lucide="party-popper" class="w-4 h-4"></i> Start Nieuwjaar
                             </button>
-                            <button onclick="simulateExcitement('high')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-red-500/40 text-sm font-bold text-white transition-colors flex items-center gap-2">
+                            <button onclick="simulateExcitement('high')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
                                 <i data-lucide="zap" class="w-4 h-4"></i> 10s Excitement
                             </button>
-                            <button onclick="simulateExcitement('low')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-yellow-500/40 text-sm font-bold text-white transition-colors flex items-center gap-2">
+                            <button onclick="simulateExcitement('low')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
                                 <i data-lucide="timer" class="w-4 h-4"></i> 1m Excitement
                             </button>
-                            <button onclick="resetExcitement()" class="w-full text-left px-4 py-3 rounded-xl hover:bg-white/20 text-sm font-bold text-white transition-colors flex items-center gap-2">
+                            <button onclick="resetExcitement()" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-colors flex items-center gap-2">
                                 <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset Status
                             </button>
                         </div>
@@ -118,11 +118,11 @@
             <div class="pt-6 border-t border-white/10">
                 <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Thema's</p>
                 <div class="grid grid-cols-2 gap-3">
-                    <button onclick="setTheme('default')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20">Slate</button>
-                    <button onclick="setTheme('midnight')" class="px-4 py-2 rounded-xl bg-indigo-500/40 text-xs font-bold text-white border border-indigo-500/40">Midnight</button>
-                    <button onclick="setTheme('aurora')" class="px-4 py-2 rounded-xl bg-emerald-500/40 text-xs font-bold text-white border border-emerald-500/40">Aurora</button>
-                    <button onclick="setTheme('sunset')" class="px-4 py-2 rounded-xl bg-rose-500/40 text-xs font-bold text-white border border-rose-500/40">Sunset</button>
-                    <button onclick="setTheme('gold')" class="px-4 py-2 rounded-xl bg-amber-500/40 text-xs font-bold text-white border border-amber-500/40">Gold</button>
+                    <button onclick="setTheme('default')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Slate</button>
+                    <button onclick="setTheme('midnight')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Midnight</button>
+                    <button onclick="setTheme('aurora')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Aurora</button>
+                    <button onclick="setTheme('sunset')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Sunset</button>
+                    <button onclick="setTheme('gold')" class="px-4 py-2 rounded-xl bg-white/10 text-xs font-bold text-white border border-white/20 hover:bg-white/20 transition-all">Gold</button>
                 </div>
             </div>
             <button onclick="triggerDevMode()" class="w-full bg-white text-slate-900 py-4 rounded-2xl font-bold shadow-xl">Start Nieuwjaar</button>
@@ -133,7 +133,7 @@
     <section class="hero-section relative pt-40 pb-24 md:pt-56 md:pb-40 overflow-hidden">
         <!-- Background Blobs -->
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow"></div>
+            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/30 rounded-full blur-[120px] animate-pulse-slow"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/20 rounded-full blur-[120px] animate-pulse-slow" style="animation-delay: 2s"></div>
         </div>
 
