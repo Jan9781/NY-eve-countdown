@@ -2,16 +2,18 @@
 lucide.createIcons();
 
 // Countdown Logic
-const targetDate = new Date("January 1, 2026 00:00:00").getTime();
+const ORIGINAL_TARGET = new Date("January 1, 2026 00:00:00").getTime();
+let targetDate = ORIGINAL_TARGET;
 let isNewYear = false;
 let prevValues = { days: null, hours: null, minutes: null, seconds: null };
+let celebrationInterval;
 
 function updateCountdown() {
     const now = new Date().getTime();
     const distance = targetDate - now;
 
-    if (distance < 0 && !isNewYear) {
-        triggerNewYear();
+    if (distance <= 0 && !isNewYear) {
+        activateCelebration();
         return;
     }
 
@@ -171,7 +173,8 @@ class Particle {
     }
 }
 
-function triggerNewYear() {
+function activateCelebration() {
+    if (isNewYear) return;
     isNewYear = true;
     const countdown = document.getElementById('countdown-container');
     const celebration = document.getElementById('celebration-msg');
@@ -198,14 +201,14 @@ function triggerNewYear() {
         animateConfetti();
         
         // Continuous bursts
-        const interval = setInterval(() => {
+        celebrationInterval = setInterval(() => {
             if (particles.length < 500) {
                 for (let i = 0; i < 50; i++) particles.push(new Particle());
             }
         }, 2000);
         
         // Stop bursts after 30 seconds
-        setTimeout(() => clearInterval(interval), 30000);
+        setTimeout(() => clearInterval(celebrationInterval), 30000);
     }, 800);
 }
 
@@ -219,15 +222,49 @@ function animateConfetti() {
 }
 
 // Dev Tools
+function triggerNewYear() {
+    // Set timer to 2 seconds from now
+    targetDate = Date.now() + 2000;
+    isNewYear = false; // Allow re-triggering if reset
+    updateCountdown();
+    toggleDevMenu();
+}
+
 function simulateExcitement(mode) {
     if (mode === 'high') {
-        triggerNewYear();
+        // Set timer to 10 seconds from now
+        targetDate = Date.now() + 10000;
+        isNewYear = false;
+        updateCountdown();
     }
     toggleDevMenu();
 }
 
 function resetExcitement() {
-    location.reload();
+    // Reset to original target
+    targetDate = ORIGINAL_TARGET;
+    isNewYear = false;
+    
+    // Clear intervals
+    clearInterval(celebrationInterval);
+    
+    // Reset UI
+    const countdown = document.getElementById('countdown-container');
+    const celebration = document.getElementById('celebration-msg');
+    
+    countdown.classList.remove('hidden');
+    countdown.style.transform = "none";
+    countdown.style.opacity = "1";
+    countdown.style.transition = "none";
+    
+    celebration.classList.add('hidden');
+    celebration.classList.remove('animate-celebrate-in');
+    
+    // Clear particles
+    particles = [];
+    
+    updateCountdown();
+    toggleDevMenu();
 }
 
 // Close menus on click outside
