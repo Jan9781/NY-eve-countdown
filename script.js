@@ -6,8 +6,29 @@ function startLoader() {
     const loader = document.getElementById('loader-wrapper');
     if (!loader) return;
 
+    const swoosh = new Audio('assets/swoosh.mp3');
+    const plink = new Audio('assets/logoplink.mp3');
+    
+    // Preload sounds
+    swoosh.load();
+    plink.load();
+
     // Force the animation to start by adding a class
     loader.classList.add('active');
+
+    // Play entrance swoosh
+    swoosh.play().catch(() => console.log("Audio playback waiting for interaction"));
+
+    // Play plink when it hits the middle (around 0.6s)
+    setTimeout(() => {
+        plink.play().catch(() => {});
+    }, 600);
+
+    // Play exit swoosh (around 1.8s)
+    setTimeout(() => {
+        swoosh.currentTime = 0;
+        swoosh.play().catch(() => {});
+    }, 1800);
 
     setTimeout(() => {
         loader.classList.add('fade-out');

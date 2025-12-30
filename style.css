@@ -92,7 +92,15 @@ body {
     25% {
         transform: translate(10px, 10px) rotate(5deg) scale(1.1);
     }
-    35%, 75% {
+    35% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    /* Bounce in the middle */
+    45% { transform: scale(1.05) translateY(-15px); }
+    55% { transform: scale(1) translateY(0); }
+    65% { transform: scale(1.02) translateY(-5px); }
+    75% {
         transform: translate(0, 0) rotate(0deg) scale(1);
         opacity: 1;
     }
