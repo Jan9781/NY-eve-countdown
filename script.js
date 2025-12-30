@@ -223,37 +223,40 @@ function animateConfetti() {
 
 // Dev Tools
 function triggerNewYear() {
-    // Set timer to 2 seconds from now
+    console.log("DevTools: Starting 2s countdown...");
+    resetExcitement(false); // Reset UI but don't close menu yet
     targetDate = Date.now() + 2000;
-    isNewYear = false; // Allow re-triggering if reset
+    isNewYear = false;
     updateCountdown();
-    toggleDevMenu();
+    document.getElementById("dev-menu").classList.add("hidden");
 }
 
 function simulateExcitement(mode) {
     if (mode === 'high') {
-        // Set timer to 10 seconds from now
+        console.log("DevTools: Starting 10s countdown...");
+        resetExcitement(false);
         targetDate = Date.now() + 10000;
         isNewYear = false;
         updateCountdown();
     }
-    toggleDevMenu();
+    document.getElementById("dev-menu").classList.add("hidden");
 }
 
-function resetExcitement() {
+function resetExcitement(closeMenu = true) {
+    console.log("DevTools: Resetting...");
     // Reset to original target
     targetDate = ORIGINAL_TARGET;
     isNewYear = false;
     
     // Clear intervals
-    clearInterval(celebrationInterval);
+    if (celebrationInterval) clearInterval(celebrationInterval);
     
     // Reset UI
     const countdown = document.getElementById('countdown-container');
     const celebration = document.getElementById('celebration-msg');
     
     countdown.classList.remove('hidden');
-    countdown.style.transform = "none";
+    countdown.style.transform = "scale(1) rotate(0deg)";
     countdown.style.opacity = "1";
     countdown.style.transition = "none";
     
@@ -263,8 +266,11 @@ function resetExcitement() {
     // Clear particles
     particles = [];
     
+    // Reset prevValues to force update
+    prevValues = { days: null, hours: null, minutes: null, seconds: null };
+    
     updateCountdown();
-    toggleDevMenu();
+    if (closeMenu) document.getElementById("dev-menu").classList.add("hidden");
 }
 
 // Close menus on click outside
