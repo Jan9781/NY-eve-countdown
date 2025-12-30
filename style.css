@@ -202,10 +202,28 @@ body.fullscreen-mode {
 }
 
 body.fullscreen-mode nav,
-body.fullscreen-mode #hero-content > *:not(#countdown-container):not(#celebration-msg),
+body.fullscreen-mode #hero-content > *:not(#countdown-container):not(#celebration-msg):not(#countdown-badge),
 body.fullscreen-mode h1 {
     opacity: 0;
     pointer-events: none;
+}
+
+body.fullscreen-mode #countdown-badge {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 1;
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+@media (min-width: 768px) {
+    body.fullscreen-mode #countdown-badge {
+        top: 25%;
+        scale: 1.5;
+    }
 }
 
 body.fullscreen-mode #countdown-container {
