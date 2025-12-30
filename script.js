@@ -1,66 +1,6 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
-// Loader Logic
-function startLoader() {
-    const loader = document.getElementById('loader-wrapper');
-    if (!loader) return;
-
-    // Create audio elements with absolute paths to ensure they load
-    const swoosh = new Audio('assets/swoosh.mp3');
-    const plink = new Audio('assets/logoplink.mp3');
-    
-    // Set volume
-    swoosh.volume = 0.6;
-    plink.volume = 0.8;
-
-    // Force the animation to start by adding a class
-    loader.classList.add('active');
-
-    // Function to play sound with a fallback for browser restrictions
-    const playSound = (audio) => {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                console.log("Audio playback blocked. Click anywhere to enable sound.");
-                // Add a one-time listener to play on first interaction if blocked
-                document.addEventListener('click', () => {
-                    audio.play();
-                }, { once: true });
-            });
-        }
-    };
-
-    // Play entrance swoosh immediately
-    playSound(swoosh);
-
-    // Play plink when it hits the middle and bounces (around 0.8s - 1.0s)
-    setTimeout(() => {
-        plink.currentTime = 0;
-        playSound(plink);
-    }, 1000);
-
-    // Play exit swoosh (around 1.8s)
-    setTimeout(() => {
-        swoosh.currentTime = 0;
-        playSound(swoosh);
-    }, 1800);
-
-    setTimeout(() => {
-        loader.classList.add('fade-out');
-        setTimeout(() => {
-            loader.remove();
-        }, 1000);
-    }, 2500); // Matches the 2.5s animation duration
-}
-
-// Run as soon as the DOM is ready, don't wait for images/assets
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startLoader);
-} else {
-    startLoader();
-}
-
 // Countdown Logic
 const targetDate = new Date("January 1, 2026 00:00:00").getTime();
 let isNewYear = false;
