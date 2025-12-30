@@ -1,6 +1,29 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
+// Festive Decorations
+function createFestiveElements() {
+    const icons = ['party-popper', 'sparkles', 'star', 'gift', 'glass-water'];
+    const container = document.body;
+    
+    for (let i = 0; i < 30; i++) {
+        const el = document.createElement('div');
+        el.className = 'festive-element opacity-20 dark:opacity-10';
+        const iconName = icons[Math.floor(Math.random() * icons.length)];
+        el.innerHTML = `<i data-lucide="${iconName}" class="w-8 h-8 text-indigo-400"></i>`;
+        
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = Math.random() * 100 + 'vh';
+        el.style.animationDelay = Math.random() * 10 + 's';
+        el.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        
+        container.appendChild(el);
+    }
+    lucide.createIcons();
+}
+
+createFestiveElements();
+
 // Countdown Logic
 const targetDate = new Date("January 1, 2026 00:00:00").getTime();
 let isNewYear = false;
@@ -81,6 +104,10 @@ function setTheme(theme) {
         body.classList.add("theme-sunset");
         html.classList.add("dark");
         updateColors("text-rose-400", "bg-rose-500");
+    } else if (theme === "gold") {
+        body.classList.add("theme-gold");
+        html.classList.add("dark");
+        updateColors("text-amber-400", "bg-amber-500");
     } else if (theme === "default") {
         html.classList.add("dark");
         updateColors("text-indigo-400", "bg-indigo-600");
@@ -91,13 +118,33 @@ function setTheme(theme) {
 
 function updateColors(textClass, bgClass) {
     document.querySelectorAll(".countdown-item span:first-child").forEach(el => {
-        el.className = `text-5xl md:text-7xl font-black number-animate ${textClass} group-hover:text-white transition-colors`;
+        el.className = `text-5xl md:text-7xl font-black number-animate ${textClass} group-hover:text-white transition-colors number-shimmer`;
     });
-    document.querySelectorAll(".bg-indigo-600, .bg-emerald-500, .bg-rose-500, .bg-indigo-500").forEach(el => {
-        el.classList.remove("bg-indigo-600", "bg-emerald-500", "bg-rose-500", "bg-indigo-500");
+    document.querySelectorAll(".bg-indigo-600, .bg-emerald-500, .bg-rose-500, .bg-indigo-500, .bg-amber-500").forEach(el => {
+        el.classList.remove("bg-indigo-600", "bg-emerald-500", "bg-rose-500", "bg-indigo-500", "bg-amber-500");
         el.classList.add(bgClass);
     });
 }
+
+// Sparkle Spawning
+function createSparkles() {
+    const containers = document.querySelectorAll('.sparkle-container');
+    containers.forEach(container => {
+        setInterval(() => {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.width = (Math.random() * 4 + 2) + 'px';
+            sparkle.style.height = sparkle.style.width;
+            container.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 2000);
+        }, 400);
+    });
+}
+
+createSparkles();
 
 function toggleThemeMenu(show) {
     const menu = document.getElementById("theme-menu");

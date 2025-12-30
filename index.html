@@ -47,7 +47,7 @@
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center gap-3">
                     <div class="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-500/20">
-                        <i data-lucide="clock" class="w-6 h-6 text-white"></i>
+                        <i data-lucide="glass-water" class="w-6 h-6 text-white"></i>
                     </div>
                     <span class="text-2xl font-black tracking-tighter text-white">NovaCount</span>
                 </div>
@@ -72,6 +72,7 @@
                             <button onclick="setTheme('midnight')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-indigo-500/20 text-sm font-medium transition-colors">Midnight Indigo</button>
                             <button onclick="setTheme('aurora')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-emerald-500/20 text-sm font-medium transition-colors">Aurora Emerald</button>
                             <button onclick="setTheme('sunset')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-rose-500/20 text-sm font-medium transition-colors">Sunset Rose</button>
+                            <button onclick="setTheme('gold')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-amber-500/20 text-sm font-medium transition-colors">Gold & Luxury</button>
                         </div>
                     </div>
                     </div>
@@ -118,6 +119,7 @@
                     <button onclick="setTheme('midnight')" class="px-4 py-2 rounded-xl bg-indigo-500/20 text-xs font-bold text-white border border-indigo-500/20">Midnight</button>
                     <button onclick="setTheme('aurora')" class="px-4 py-2 rounded-xl bg-emerald-500/20 text-xs font-bold text-white border border-emerald-500/20">Aurora</button>
                     <button onclick="setTheme('sunset')" class="px-4 py-2 rounded-xl bg-rose-500/20 text-xs font-bold text-white border border-rose-500/20">Sunset</button>
+                    <button onclick="setTheme('gold')" class="px-4 py-2 rounded-xl bg-amber-500/20 text-xs font-bold text-white border border-amber-500/20">Gold</button>
                 </div>
             </div>
             <button onclick="triggerDevMode()" class="w-full bg-white text-slate-900 py-4 rounded-2xl font-bold shadow-xl">Start Nieuwjaar</button>
@@ -152,19 +154,23 @@
             <!-- Countdown Timer -->
             <div id="countdown-container" class="reveal flex flex-wrap justify-center gap-4 md:gap-10 mb-20 animate-float">
                 <div class="countdown-item group">
-                    <span id="days" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors">00</span>
+                    <div class="sparkle-container"></div>
+                    <span id="days" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors number-shimmer">00</span>
                     <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Dagen</span>
                 </div>
                 <div class="countdown-item group">
-                    <span id="hours" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors">00</span>
+                    <div class="sparkle-container"></div>
+                    <span id="hours" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors number-shimmer">00</span>
                     <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Uren</span>
                 </div>
                 <div class="countdown-item group">
-                    <span id="minutes" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors">00</span>
+                    <div class="sparkle-container"></div>
+                    <span id="minutes" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors number-shimmer">00</span>
                     <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Minuten</span>
                 </div>
                 <div class="countdown-item group">
-                    <span id="seconds" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors">00</span>
+                    <div class="sparkle-container"></div>
+                    <span id="seconds" class="text-5xl md:text-7xl font-black number-animate text-indigo-400 group-hover:text-white transition-colors number-shimmer">00</span>
                     <span class="text-xs md:text-sm font-black text-slate-500 uppercase tracking-[0.2em] mt-3">Seconden</span>
                 </div>
             </div>
