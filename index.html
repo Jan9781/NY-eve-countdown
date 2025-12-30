@@ -32,6 +32,9 @@
     <!-- Background Elements -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div id="snow-container" class="absolute inset-0"></div>
+        <div class="shooting-star" style="top: 0; right: 80px; animation-delay: 0s;"></div>
+        <div class="shooting-star" style="top: 0; right: 400px; animation-delay: 1s;"></div>
+        <div class="shooting-star" style="top: 300px; right: 0; animation-delay: 2s;"></div>
         <div id="festive-container"></div>
     </div>
 
@@ -70,7 +73,7 @@
     <!-- Main Content -->
     <main class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20">
         <div id="hero-content" class="text-center max-w-4xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-widest mb-8 animate-fade-in">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-black uppercase tracking-widest mb-12 animate-fade-in hover:scale-110 transition-transform cursor-default">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -78,38 +81,33 @@
                 Aftellen naar 2026
             </div>
 
-            <h1 class="text-6xl md:text-9xl font-black text-white tracking-tighter mb-12 leading-none animate-slide-up">
-                Het Nieuwe Jaar <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">Wacht op Je.</span>
-            </h1>
-
             <!-- Countdown Grid -->
-            <div id="countdown-container" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
+            <div id="countdown-container" class="flex flex-wrap justify-center gap-4 md:gap-8 mb-16 animate-float-slow">
                 <!-- Days -->
                 <div class="countdown-card group">
                     <div class="relative z-10">
-                        <span id="days" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span id="days" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums animate-glow-pulse">00</span>
                         <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Dagen</span>
                     </div>
                 </div>
                 <!-- Hours -->
                 <div class="countdown-card group">
                     <div class="relative z-10">
-                        <span id="hours" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span id="hours" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums animate-glow-pulse">00</span>
                         <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Uren</span>
                     </div>
                 </div>
                 <!-- Minutes -->
                 <div class="countdown-card group">
                     <div class="relative z-10">
-                        <span id="minutes" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span id="minutes" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums animate-glow-pulse">00</span>
                         <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Minuten</span>
                     </div>
                 </div>
                 <!-- Seconds -->
                 <div class="countdown-card group">
                     <div class="relative z-10">
-                        <span id="seconds" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums">00</span>
+                        <span id="seconds" class="text-5xl md:text-8xl font-black text-white block mb-1 tabular-nums animate-glow-pulse">00</span>
                         <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-white/40 group-hover:text-primary transition-colors">Seconden</span>
                     </div>
                 </div>
