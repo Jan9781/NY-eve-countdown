@@ -154,61 +154,60 @@ body.fullscreen-mode #countdown-container {
 }
 
 /* Themes */
-.theme-midnight { --primary: #6366f1; --bg: #0f172a; }
-.theme-aurora { --primary: #10b981; --bg: #064e3b; }
-.theme-sunset { --primary: #f43f5e; --bg: #450a0a; }
+:root {
+    --primary: 99 102 241; /* Indigo 500 */
+    --bg-main: 2 6 23; /* Slate 950 */
+}
 
-/* Theme: Gold & Luxury */
+.theme-midnight { 
+    --primary: 79 70 229; /* Indigo 600 */
+    --bg-main: 15 23 42; /* Slate 900 */
+}
+
+.theme-aurora { 
+    --primary: 16 185 129; /* Emerald 500 */
+    --bg-main: 6 78 59; /* Emerald 900 */
+}
+
+.theme-sunset { 
+    --primary: 244 63 94; /* Rose 500 */
+    --bg-main: 69 10 10; /* Rose 900 */
+}
+
 .theme-gold {
-    --primary: #fbbf24;
-    --primary-glow: rgba(251, 191, 36, 0.4);
+    --primary: 251 191 36; /* Amber 400 */
+    --bg-main: 2 6 23; /* Slate 950 */
 }
 
-.theme-gold.dark {
-    background: radial-gradient(circle at top right, #1e1b4b, #020617);
+body {
+    background-color: rgb(var(--bg-main)) !important;
+    color: white;
 }
 
-.theme-gold .countdown-item {
-    border-color: rgba(251, 191, 36, 0.2);
-    background: rgba(251, 191, 36, 0.05);
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.dark .glass {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Theme Overrides */
 .theme-gold .countdown-item::before {
-    background: conic-gradient(from 0deg, transparent, #fbbf24, transparent);
+    background: conic-gradient(from 0deg, transparent, rgb(var(--primary)), transparent);
 }
 
-.theme-gold .text-indigo-400 {
-    color: #fbbf24;
+.text-primary {
+    color: rgb(var(--primary));
 }
 
-.theme-gold .bg-indigo-600 {
-    background-color: #d97706;
-}
-
-.theme-gold .shadow-indigo-500\/20 {
-    box-shadow: 0 10px 15px -3px rgba(217, 119, 6, 0.2);
-}
-
-/* Shimmer for numbers */
-.number-shimmer {
-    background: linear-gradient(
-        to right,
-        currentColor 20%,
-        #fff 40%,
-        #fff 60%,
-        currentColor 80%
-    );
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer-text 3s linear infinite;
-}
-
-@keyframes shimmer-text {
-    to {
-        background-position: 200% center;
-    }
+.bg-primary {
+    background-color: rgb(var(--primary));
 }
 
 #confetti-canvas {

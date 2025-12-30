@@ -10,7 +10,7 @@ function createFestiveElements() {
         const el = document.createElement('div');
         el.className = 'festive-element opacity-20 dark:opacity-10';
         const iconName = icons[Math.floor(Math.random() * icons.length)];
-        el.innerHTML = `<i data-lucide="${iconName}" class="w-8 h-8 text-indigo-400"></i>`;
+        el.innerHTML = `<i data-lucide="${iconName}" class="w-8 h-8 text-primary"></i>`;
         
         el.style.left = Math.random() * 100 + 'vw';
         el.style.top = Math.random() * 100 + 'vh';
@@ -89,41 +89,21 @@ function setTheme(theme) {
     const body = document.body;
     const html = document.documentElement;
     
-    // Reset
-    body.classList.remove("theme-midnight", "theme-aurora", "theme-sunset");
+    // Reset all theme classes
+    body.classList.remove("theme-midnight", "theme-aurora", "theme-sunset", "theme-gold");
     
     if (theme === "midnight") {
         body.classList.add("theme-midnight");
-        html.classList.add("dark");
-        updateColors("text-indigo-400", "bg-indigo-500");
     } else if (theme === "aurora") {
         body.classList.add("theme-aurora");
-        html.classList.add("dark");
-        updateColors("text-emerald-400", "bg-emerald-500");
     } else if (theme === "sunset") {
         body.classList.add("theme-sunset");
-        html.classList.add("dark");
-        updateColors("text-rose-400", "bg-rose-500");
     } else if (theme === "gold") {
         body.classList.add("theme-gold");
-        html.classList.add("dark");
-        updateColors("text-amber-400", "bg-amber-500");
-    } else if (theme === "default") {
-        html.classList.add("dark");
-        updateColors("text-indigo-400", "bg-indigo-600");
     }
     
+    html.classList.add("dark");
     toggleThemeMenu(false);
-}
-
-function updateColors(textClass, bgClass) {
-    document.querySelectorAll(".countdown-item span:first-child").forEach(el => {
-        el.className = `text-5xl md:text-7xl font-black number-animate ${textClass} group-hover:text-white transition-colors number-shimmer`;
-    });
-    document.querySelectorAll(".bg-indigo-600, .bg-emerald-500, .bg-rose-500, .bg-indigo-500, .bg-amber-500").forEach(el => {
-        el.classList.remove("bg-indigo-600", "bg-emerald-500", "bg-rose-500", "bg-indigo-500", "bg-amber-500");
-        el.classList.add(bgClass);
-    });
 }
 
 // Sparkle Spawning
