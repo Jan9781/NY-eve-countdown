@@ -5,12 +5,12 @@
 
 const LoaderSystem = {
     config: {
-        duration: 2500,
+        duration: 4000, // Increased from 2.5s to 4s
         swooshPath: 'assets/swoosh.mp3',
         plinkPath: 'assets/logoplink.mp3',
         timings: {
-            plink: 1250, // Exactly at the 50% mark of the 2.5s animation
-            exitSwoosh: 1800
+            plink: 2000, // Exactly at the 50% mark of the 4s animation
+            exitSwoosh: 3200 // Just as it starts to fly away
         }
     },
 
@@ -39,8 +39,8 @@ const LoaderSystem = {
     },
 
     setupAudioUnlock() {
-        // Only real user interactions can unlock audio
-        const unlockEvents = ['click', 'touchstart', 'keydown', 'mousedown'];
+        // Added mousemove and wheel as they are often the first "interaction"
+        const unlockEvents = ['click', 'touchstart', 'keydown', 'mousedown', 'mousemove', 'wheel'];
         
         const unlock = () => {
             console.log("Audio unlocked via user gesture");
